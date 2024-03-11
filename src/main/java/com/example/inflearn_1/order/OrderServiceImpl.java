@@ -2,13 +2,21 @@ package com.example.inflearn_1.order;
 
 import com.example.inflearn_1.discount.DiscountPolicy;
 import com.example.inflearn_1.discount.FixDiscountPolicy;
+import com.example.inflearn_1.discount.RateDiscountPolicy;
 import com.example.inflearn_1.member.Member;
 import com.example.inflearn_1.member.MemberRepository;
 import com.example.inflearn_1.member.MemoryMemberRepository;
 
 public class OrderServiceImpl implements OrderService {
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
-    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
+//    private final DiscountPolicy discountPolicy = new RateDiscountPolicy(); // 구현 클래스를 바꾸는 순간 OrderServiceImpl 클래스를 변병하므로 OCP 위반
+
+
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
@@ -17,3 +25,6 @@ public class OrderServiceImpl implements OrderService {
         return new Order(memberId, itemName, itemPrice, discountPrice);
     }
 }
+
+// OCP 개방-폐쇄원칙 유지 보수 사항이 생긴다면 코드를 쉽게 확장 할 수 있도록 하고 수정할 떄는 닫혀 있어야 하는 원칙
+// DIP 의존 역전 원칙 위반 - 추상에만 의존하도록 바꿔야 한다.
