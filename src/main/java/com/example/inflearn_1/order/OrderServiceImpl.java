@@ -24,6 +24,11 @@ public class OrderServiceImpl implements OrderService {
         int discountPrice = discountPolicy.discount(member, itemPrice); // 단일 책임 원칙 (SRP) 준수, 오더는 오더만 할인정책은 따로 실행
         return new Order(memberId, itemName, itemPrice, discountPrice);
     }
+
+    //테스트 용도
+    public MemberRepository getMemberRepository() {
+        return memberRepository;
+    }
 }
 
 // OCP 개방-폐쇄원칙 유지 보수 사항이 생긴다면 코드를 쉽게 확장 할 수 있도록 하고 수정할 떄는 닫혀 있어야 하는 원칙
