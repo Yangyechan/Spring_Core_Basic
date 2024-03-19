@@ -1,22 +1,25 @@
 package com.example.inflearn_1.order;
 
+import com.example.inflearn_1.annotation.MainDiscountPolicy;
 import com.example.inflearn_1.discount.DiscountPolicy;
 import com.example.inflearn_1.discount.FixDiscountPolicy;
 import com.example.inflearn_1.discount.RateDiscountPolicy;
 import com.example.inflearn_1.member.Member;
 import com.example.inflearn_1.member.MemberRepository;
 import com.example.inflearn_1.member.MemoryMemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+//@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
 //    private final DiscountPolicy discountPolicy = new RateDiscountPolicy(); // 구현 클래스를 바꾸는 순간 OrderServiceImpl 클래스를 변병하므로 OCP 위반
 
     @Autowired
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+    public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPolicy DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
